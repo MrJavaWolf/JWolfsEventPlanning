@@ -1,0 +1,53 @@
+using System.Security.Claims;
+
+namespace JWolfsEventPlanning.Models;
+
+public sealed class TelegramUser
+{
+    public bool IsAuthenticated { get; init; }
+    
+    public string? Name { get; init; }
+
+    public string? TelegramId { get; init; }
+
+    public string? Handle { get; init; }
+
+    public static TelegramUser FromClaimsPrincipal(ClaimsPrincipal? user)
+    {
+        // User not signed in
+        if (user?.Identity?.IsAuthenticated != true)
+        {
+            return new TelegramUser
+            {
+                IsAuthenticated = false
+            };
+        }
+
+        return new TelegramUser
+        {
+            IsAuthenticated = true,
+
+            // Telegram display name
+            Name =
+                user.FindFirstValue("name") ??
+                user.FindFirstValue(ClaimTypes.Name),
+
+            // Telegram unique id
+            TelegramId =
+                user.FindFirstValue("sub") ??
+                user.FindFirstValue(ClaimTypes.NameIdentifier),
+
+            // Telegram @username / handle
+            Handle =
+                user.FindFirstValue("preferred_username")
+        };
+    }
+}
+
+public static class ClaimsPrincipalExtensions
+{
+    public static TelegramUser GetTelegramUser(this ClaimsPrincipal? user)
+    {
+        return TelegramUser.FromClaimsPrincipal(user);
+    }
+}

@@ -22,9 +22,6 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-*.min.css
-*.css.map
-*.min.js
 
 # .NET Core
 project.lock.json

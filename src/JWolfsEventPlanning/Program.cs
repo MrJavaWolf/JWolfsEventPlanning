@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -23,46 +19,42 @@ builder.Services
         options.LogoutPath = "/logout";
         options.AccessDeniedPath = "/access-denied";
     })
-    .AddOpenIdConnect(TelegramScheme, options =>
+   .AddOpenIdConnect(TelegramScheme, options =>
+{
+    options.Authority = "https://oauth.telegram.org";
+
+    options.ClientId = builder.Configuration["Authentication:Telegram:ClientId"]
+        ?? throw new InvalidOperationException("Missing Authentication:Telegram:ClientId");
+
+    options.ClientSecret = builder.Configuration["Authentication:Telegram:ClientSecret"]
+        ?? throw new InvalidOperationException("Missing Authentication:Telegram:ClientSecret");
+
+    options.ResponseType = OpenIdConnectResponseType.Code;
+    options.UsePkce = true;
+
+    options.MetadataAddress =
+        "https://oauth.telegram.org/.well-known/openid-configuration";
+
+    options.CallbackPath = "/signin-telegram";
+
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+
+    options.GetClaimsFromUserInfoEndpoint = false;
+
+    options.SaveTokens = true;
+
+    // Map Telegram claims
+    options.ClaimActions.MapUniqueJsonKey("telegram_id", "sub");
+    options.ClaimActions.MapUniqueJsonKey("telegram_username", "preferred_username");
+
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.Authority = "https://oauth.telegram.org";
-
-        options.ClientId = builder.Configuration["Authentication:Telegram:ClientId"]
-            ?? throw new InvalidOperationException("Missing Authentication:Telegram:ClientId");
-
-        options.ClientSecret = builder.Configuration["Authentication:Telegram:ClientSecret"]
-            ?? throw new InvalidOperationException("Missing Authentication:Telegram:ClientSecret");
-
-        options.ResponseType = OpenIdConnectResponseType.Code;
-        options.UsePkce = true;
-
-        // Telegram OIDC discovery document:
-        // https://oauth.telegram.org/.well-known/openid-configuration
-        options.MetadataAddress = "https://oauth.telegram.org/.well-known/openid-configuration";
-
-        options.CallbackPath = "/signin-telegram";
-
-        options.Scope.Clear();
-        options.Scope.Add("openid");
-        options.Scope.Add("profile");
-
-        // Optional:
-        // options.Scope.Add("phone");
-        // options.Scope.Add("telegram:bot_access");
-
-        // Telegram currently returns user claims in the ID token.
-        // It does not currently provide a separate UserInfo endpoint.
-        options.GetClaimsFromUserInfoEndpoint = false;
-
-        options.SaveTokens = true;
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidIssuer = "https://oauth.telegram.org",
-            NameClaimType = "name"
-        };
-    });
-
+        ValidIssuer = "https://oauth.telegram.org",
+        NameClaimType = "preferred_username"
+    };
+});
 builder.Services.AddAuthorization();
 
 builder.Services.AddRazorPages()
