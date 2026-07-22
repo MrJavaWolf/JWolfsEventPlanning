@@ -42,15 +42,6 @@
                         </div>
                     </div>
 
-                    <!-- WHAT -->
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">What</label>
-
-                        <input type="text"
-                               class="form-control form-control-lg bg-black text-light border-secondary"
-                               id="whatInput"
-                               placeholder="Furry Party, Furry Dinner, Furry Movie Night..." />
-                    </div>
 
                     <!-- WHERE -->
                     <div class="mb-4">
@@ -88,16 +79,12 @@
                         </div>
                     </div>
 
-                    <!-- WHEN -->
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">When</label>
+                    <!-- OPTIONS -->
+                    <div class="mb-4">
+                        <h5 class="text-info mb-3">Event Options</h5>
 
-                        <input type="text"
-                               class="form-control form-control-lg bg-black text-light border-secondary"
-                               id="whenInput"
-                               placeholder="Friday 7PM" />
+                        <div id="eventOptionsContainer"></div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -160,196 +147,232 @@
 
 <script>
 
-        const titleInput = document.getElementById('titleInput');
-        const titleStyleSelect = document.getElementById('titleStyleSelect');
+    const titleInput = document.getElementById('titleInput');
+    const titleStyleSelect = document.getElementById('titleStyleSelect');
 
-        const whatInput = document.getElementById('whatInput');
-        const whereInput = document.getElementById('whereInput');
-        const whenInput = document.getElementById('whenInput');
+    const whereInput = document.getElementById('whereInput');
+    const useMapsToggle = document.getElementById('useMapsToggle');
 
-        const useMapsToggle = document.getElementById('useMapsToggle');
+    const customLinkContainer =
+        document.getElementById('customLinkContainer');
 
-        const customLinkContainer =
-            document.getElementById('customLinkContainer');
+    const customLinkInput =
+        document.getElementById('customLinkInput');
 
-        const customLinkInput =
-            document.getElementById('customLinkInput');
+    const outputText =
+        document.getElementById('outputText');
 
-        const outputText =
-            document.getElementById('outputText');
+    // EVENTS
+    titleInput.addEventListener('input', updateOutput);
+    titleStyleSelect.addEventListener('change', updateOutput);
 
-        // EVENTS
-        titleInput.addEventListener('input', updateOutput);
-        titleStyleSelect.addEventListener('change', updateOutput);
+    whereInput.addEventListener('input', updateOutput);
 
-        whatInput.addEventListener('input', updateOutput);
-        whereInput.addEventListener('input', updateOutput);
-        whenInput.addEventListener('input', updateOutput);
+    customLinkInput.addEventListener('input', updateOutput);
 
-        customLinkInput.addEventListener('input', updateOutput);
+    useMapsToggle.addEventListener('change', () => {
 
-        useMapsToggle.addEventListener('change', () => {
+        customLinkContainer.style.display =
+            useMapsToggle.checked ? 'none' : 'block';
 
-            customLinkContainer.style.display =
-                useMapsToggle.checked ? 'none' : 'block';
+        updateOutput();
+    });
 
-            updateOutput();
+    const eventOptions = [
+        { id: "bringOwnDrinksToggle", text: "Bring your own drinks/alcohol" },
+        { id: "bringOwnSodaToggle", text: "Bring your own soda/energi drinks/cocio" },
+        { id: "bringSnacksToggle", text: "Bring your own snacks" },
+        { id: "foodProvidedToggle", text: "Food will be provided" },
+        { id: "dessertProvidedToggle", text: "Dessert will be provided" },
+        { id: "sleepoverToggle", text: "Sleepover available" },
+        { id: "fursuitFriendlyToggle", text: "Fursuits are welcome" },
+        { id: "limitedSpotsToggle", text: "Limited spots available" },
+        { id: "adultsOnlyToggle", text: "Adults only (18+)" },
+        { id: "plusOneToggle", text: "Plus one/two allowed" },];
+
+    const eventOptionsContainer = document.getElementById("eventOptionsContainer");
+
+    function renderEventOptions() {
+
+        eventOptionsContainer.innerHTML = "";
+
+        eventOptions.forEach(option => {
+
+            eventOptionsContainer.insertAdjacentHTML("beforeend", `
+                <div class="form-check form-switch mb-2">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="${option.id}">
+                    <label class="form-check-label" for="${option.id}">
+                        ${option.text}
+                    </label>
+                </div>
+            `);
         });
 
-        // GOOGLE MAPS
-        function buildGoogleMapsLink(location) {
+        // Hook up change events
+        eventOptions.forEach(option => {
+            document
+                .getElementById(option.id)
+                .addEventListener("change", updateOutput);
+        });
+    }
 
-            if (!location)
-                return '';
+    // GOOGLE MAPS
+    function buildGoogleMapsLink(location) {
 
-            return 'https://www.google.com/maps/search/?api=1&query='
-                + encodeURIComponent(location);
+        if (!location)
+            return '';
+
+        return 'https://www.google.com/maps/search/?api=1&query='
+            + encodeURIComponent(location);
+    }
+
+    // TITLE BUILDER
+    function buildTitle(title) {
+
+        if (!title)
+            return '';
+
+        const style = titleStyleSelect.value;
+
+        switch (style) {
+
+            case 'ascii':
+                return buildAsciiTitle(title);
+
+            case 'box':
+                return buildBoxTitle(title);
+
+            case 'double':
+                return buildDoubleTitle(title);
+
+            case 'star':
+                return buildStarTitle(title);
+
+            default:
+                return `---- ${title} ----`;
+        }
+    }
+
+    // ASCII
+    function buildAsciiTitle(title) {
+
+        const text = ` ${title.toUpperCase()} `;
+        const border = '='.repeat(text.length);
+
+        return `${border}\n${text}\n${border}`;
+    }
+
+    // BOX
+    function buildBoxTitle(title) {
+
+        const text = ` ${title.toUpperCase()} `;
+        const border =
+            '+' + '-'.repeat(text.length) + '+';
+
+        return `${border}\n|${text}|\n${border}`;
+    }
+
+    // DOUBLE
+    function buildDoubleTitle(title) {
+
+        const text = ` ${title.toUpperCase()} `;
+        const border = '═'.repeat(text.length);
+
+        return `╔${border}╗\n║${text}║\n╚${border}╝`;
+    }
+
+    // STARS
+    function buildStarTitle(title) {
+
+        const text = ` ${title.toUpperCase()} `;
+        const border = '*'.repeat(text.length);
+
+        return `${border}\n${text}\n${border}`;
+    }
+
+
+    // OUTPUT GENERATOR
+    function updateOutput() {
+
+        const title = titleInput.value.trim();
+        const where = whereInput.value.trim();
+
+        let locationLink = '';
+
+        if (useMapsToggle.checked) {
+
+            locationLink = buildGoogleMapsLink(where);
+
+        } else {
+
+            locationLink = customLinkInput.value.trim();
         }
 
-        // TITLE BUILDER
-        function buildTitle(title) {
+        let message = '';
 
-            if (!title)
-                return '';
+        // TITLE
+        const formattedTitle = buildTitle(title);
 
-            const style = titleStyleSelect.value;
+        if (formattedTitle) {
 
-            switch (style) {
-
-                case 'ascii':
-                    return buildAsciiTitle(title);
-
-                case 'box':
-                    return buildBoxTitle(title);
-
-                case 'double':
-                    return buildDoubleTitle(title);
-
-                case 'star':
-                    return buildStarTitle(title);
-
-                default:
-                    return `---- ${title} ----`;
-            }
+            message += `${formattedTitle}\n\n`;
         }
 
-        // ASCII
-        function buildAsciiTitle(title) {
+        message += `INSERT_FANZY_DESCRIPTION\n\n`;
+        message += `When: \n`;
 
-            const text = ` ${title.toUpperCase()} `;
-            const border = '='.repeat(text.length);
+        
+        if (where) {
 
-            return `${border}\n${text}\n${border}`;
-        }
+            message += `Where: ${where}\n`;
 
-        // BOX
-        function buildBoxTitle(title) {
+            if (locationLink) {
 
-            const text = ` ${title.toUpperCase()} `;
-            const border =
-                '+' + '-'.repeat(text.length) + '+';
-
-            return `${border}\n|${text}|\n${border}`;
-        }
-
-        // DOUBLE
-        function buildDoubleTitle(title) {
-
-            const text = ` ${title.toUpperCase()} `;
-            const border = '═'.repeat(text.length);
-
-            return `╔${border}╗\n║${text}║\n╚${border}╝`;
-        }
-
-        // STARS
-        function buildStarTitle(title) {
-
-            const text = ` ${title.toUpperCase()} `;
-            const border = '*'.repeat(text.length);
-
-            return `${border}\n${text}\n${border}`;
-        }
-
-
-        // OUTPUT GENERATOR
-        function updateOutput() {
-
-            const title = titleInput.value.trim();
-            const what = whatInput.value.trim();
-            const where = whereInput.value.trim();
-            const when = whenInput.value.trim();
-
-            let locationLink = '';
-
-            if (useMapsToggle.checked) {
-
-                locationLink = buildGoogleMapsLink(where);
-
-            } else {
-
-                locationLink =
-                    customLinkInput.value.trim();
-            }
-
-            let message = '';
-
-            // TITLE
-            const formattedTitle = buildTitle(title);
-
-            if (formattedTitle) {
-
-                message += `${formattedTitle}\n\n`;
-            }
-
-            // WHAT
-            if (what) {
-
-                message += `${what}\n\n`;
-            }
-
-            // WHEN
-            if (when) {
-
-                message += `When: ${when}\n\n`;
-            }
-
-            // WHERE
-            if (where) {
-
-                message += `Where: ${where}\n`;
-
-                if (locationLink) {
-
-                    message += `${locationLink}\n`;
-                }
-
-                message += '\n';
+                message += `${locationLink}\n`;
             }
 
-            outputText.value = message;
+            message += '\n';
         }
 
-        // COPY
-        async function copyOutput(event) {
+    const enabledOptions = eventOptions
+        .filter(option => document.getElementById(option.id).checked)
+        .map(option => `• ${option.text}`);
 
-            await navigator.clipboard.writeText(
-                outputText.value
-            );
+    if (enabledOptions.length > 0) {
+        message += "Things to know:\n";
+        message += enabledOptions.join("\n");
+        message += "\n\n";
+    }
 
-            const button = event.target;
 
-            const originalText = button.innerText;
+        outputText.value = message;
+    }
 
-            button.innerText = 'Copied!';
+    // COPY
+    async function copyOutput(event) {
 
-            setTimeout(() => {
+        await navigator.clipboard.writeText(
+            outputText.value
+        );
 
-                button.innerText = originalText;
+        const button = event.target;
 
-            }, 1500);
-        }
+        const originalText = button.innerText;
 
-        // INITIAL RENDER
-        updateOutput();
+        button.innerText = 'Copied!';
+
+        setTimeout(() => {
+
+            button.innerText = originalText;
+
+        }, 1500);
+    }
+
+    // INITIAL RENDER
+    renderEventOptions();
+    updateOutput();
 
 </script>
