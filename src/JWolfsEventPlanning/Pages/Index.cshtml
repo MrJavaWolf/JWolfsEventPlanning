@@ -79,6 +79,29 @@
                         </div>
                     </div>
 
+                    <!-- COST -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Cost per person
+                        </label>
+
+                        <input type="text"
+                               class="form-control bg-black text-light border-secondary"
+                               id="costInput"
+                               placeholder="Example: 50 DKK" />
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="lowMoneyToggle">
+
+                        <label class="form-check-label"
+                               for="lowMoneyToggle">
+                            Write to me if you are low on money
+                        </label>
+                    </div>
+
                     <!-- OPTIONS -->
                     <div class="mb-4">
                         <h5 class="text-info mb-3">Event Options</h5>
@@ -147,25 +170,27 @@
 
 <script>
 
+    const costInput = document.getElementById('costInput');
+    const lowMoneyToggle = document.getElementById('lowMoneyToggle');
+
     const titleInput = document.getElementById('titleInput');
     const titleStyleSelect = document.getElementById('titleStyleSelect');
 
     const whereInput = document.getElementById('whereInput');
     const useMapsToggle = document.getElementById('useMapsToggle');
 
-    const customLinkContainer =
-        document.getElementById('customLinkContainer');
+    const customLinkContainer = document.getElementById('customLinkContainer');
 
-    const customLinkInput =
-        document.getElementById('customLinkInput');
+    const customLinkInput = document.getElementById('customLinkInput');
 
-    const outputText =
-        document.getElementById('outputText');
+    const outputText = document.getElementById('outputText');
 
     // EVENTS
     titleInput.addEventListener('input', updateOutput);
     titleStyleSelect.addEventListener('change', updateOutput);
+    costInput.addEventListener('input', updateOutput);
 
+    lowMoneyToggle.addEventListener('change', updateOutput);
     whereInput.addEventListener('input', updateOutput);
 
     customLinkInput.addEventListener('input', updateOutput);
@@ -188,7 +213,7 @@
         { id: "fursuitFriendlyToggle", text: "Fursuits are welcome" },
         { id: "limitedSpotsToggle", text: "Limited spots available" },
         { id: "adultsOnlyToggle", text: "Adults only (18+)" },
-        { id: "plusOneToggle", text: "Plus one/two allowed" },];
+        { id: "plusOneToggle", text: "Plus one or more allowed" },];
 
     const eventOptionsContainer = document.getElementById("eventOptionsContainer");
 
@@ -233,7 +258,7 @@
     function buildTitle(title) {
 
         if (!title)
-            return '';
+            return 'INSERT_TITLE';
 
         const style = titleStyleSelect.value;
 
@@ -316,10 +341,7 @@
         // TITLE
         const formattedTitle = buildTitle(title);
 
-        if (formattedTitle) {
-
-            message += `${formattedTitle}\n\n`;
-        }
+        message += `${formattedTitle}\n\n`;
 
         message += `INSERT_FANZY_DESCRIPTION\n\n`;
         message += `When: \n`;
@@ -337,15 +359,30 @@
             message += '\n';
         }
 
-    const enabledOptions = eventOptions
-        .filter(option => document.getElementById(option.id).checked)
-        .map(option => `• ${option.text}`);
+        // COST
+        const cost = costInput.value.trim();
 
-    if (enabledOptions.length > 0) {
-        message += "Things to know:\n";
-        message += enabledOptions.join("\n");
-        message += "\n\n";
-    }
+        if (cost) {
+            message += `Cost: ${cost} per person\n`;
+        }
+
+        if (lowMoneyToggle.checked) {
+            message += `Too expensiv? We still want you to join, text me :3 \n`;
+        }
+
+        if (cost || lowMoneyToggle.checked) {
+            message += '\n';
+        }
+
+        const enabledOptions = eventOptions
+            .filter(option => document.getElementById(option.id).checked)
+            .map(option => `• ${option.text}`);
+
+        if (enabledOptions.length > 0) {
+            message += "Things to know:\n";
+            message += enabledOptions.join("\n");
+            message += "\n\n";
+        }
 
 
         outputText.value = message;
