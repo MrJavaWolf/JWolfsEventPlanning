@@ -22,10 +22,9 @@
         outline: none;
     }
 
-    .title-input::placeholder {
-        color: rgba(13, 202, 240, 0.5);
-    }
-
+        .title-input::placeholder {
+            color: rgba(13, 202, 240, 0.5);
+        }
 
 </style>
 <div class="mb-3"><br /></div>
@@ -288,7 +287,9 @@
     function buildTitle(title) {
 
         if (!title)
-            return 'INSERT_TITLE';
+        {
+            title = 'INSERT_TITLE';
+        }
 
         const style = titleStyleSelect.value;
 
