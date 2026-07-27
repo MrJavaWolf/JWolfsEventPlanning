@@ -4,7 +4,47 @@
     ViewData["Title"] = "JWolfs Event Invitation Generator";
 }
 
-<div class="container py-4">
+<style>
+    .title-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #0dcaf0;
+        color: #0dcaf0;
+        font-size: inherit;
+        font-weight: inherit;
+        font-family: inherit;
+        line-height: inherit;
+        padding: 0 0.25rem;
+        margin: 0;
+        height: 1em;
+        outline: none;
+    }
+
+    .title-input::placeholder {
+        color: rgba(13, 202, 240, 0.5);
+    }
+
+
+</style>
+<div class="mb-3"><br /></div>
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h1 class="text-info mb-0 d-flex align-items-center gap-3 text-nowrap">
+            <span>
+                Invitation for
+            </span>
+            <input type="text"
+                   class="title-input"
+                   id="titleInput"
+                   placeholder="Furry Movie Night..." />
+        </h1>
+
+    </div>
+
     <div class="row g-4">
 
         <!-- INPUTS -->
@@ -12,34 +52,24 @@
             <div class="card bg-dark text-light shadow-lg border-secondary rounded-4">
                 <div class="card-body p-4">
 
-                    <h2 class="mb-4 text-info">Create Invitation</h2>
+                    <h2 class="mb-4 text-info">Invitation details</h2>
 
-                    <!-- TITLE -->
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">Title</label>
+                    <!-- TITLE STYLE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Title Style
+                        </label>
 
-                        <input type="text"
-                               class="form-control form-control-lg bg-black text-light border-secondary mb-3"
-                               id="titleInput"
-                               placeholder="Furry Movie Night..." />
+                        <select class="form-select bg-black text-light border-secondary"
+                                id="titleStyleSelect">
 
-                        <!-- TITLE STYLE -->
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Title Style
-                            </label>
+                            <option value="simple">Simple</option>
+                            <option value="ascii">ASCII</option>
+                            <option value="box">Box</option>
+                            <option value="double">Double Line</option>
+                            <option value="star">Stars</option>
 
-                            <select class="form-select bg-black text-light border-secondary"
-                                    id="titleStyleSelect">
-
-                                <option value="simple">Simple</option>
-                                <option value="ascii">ASCII</option>
-                                <option value="box">Box</option>
-                                <option value="double">Double Line</option>
-                                <option value="star">Stars</option>
-
-                            </select>
-                        </div>
+                        </select>
                     </div>
 
 
