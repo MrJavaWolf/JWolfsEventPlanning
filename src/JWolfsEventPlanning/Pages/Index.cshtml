@@ -391,20 +391,20 @@
     // COPY
     async function copyOutput(event) {
 
+        if (!navigator.clipboard) {
+            alert("Clipboard API not available. ensure you are using HTTPS://");
+            return;
+        }
+
         await navigator.clipboard.writeText(
             outputText.value
         );
 
         const button = event.target;
-
         const originalText = button.innerText;
-
         button.innerText = 'Copied!';
-
         setTimeout(() => {
-
             button.innerText = originalText;
-
         }, 1500);
     }
 
