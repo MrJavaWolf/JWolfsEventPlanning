@@ -72,6 +72,15 @@
                     </div>
 
 
+                    <!-- WHEN -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">When</label>
+                        <input type="text"
+                               class="form-control form-control-lg bg-black text-light border-secondary"
+                               id="whenInput"
+                               placeholder="Enter date and time..." />
+                    </div>
+
                     <!-- WHERE -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Where</label>
@@ -118,6 +127,20 @@
                                class="form-control bg-black text-light border-secondary"
                                id="costInput"
                                placeholder="Example: 50 DKK" />
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea
+                            class="form-control bg-black text-light border-secondary"
+                            id="descriptionInput"
+                            rows="4"
+                            placeholder="What's happening and why? What will it feel like?"></textarea>
+                        <div class="form-text text-secondary">
+                            Say what kind of gathering this is and tell the creatures what type of vibe it will be.
+                            Like, is it Cozy/Scary/"Bad movie" movie night? Dance/drink/kinky party?
+                        </div>
                     </div>
 
                     <div class="form-check form-switch mb-3">
@@ -205,7 +228,9 @@
     const titleInput = document.getElementById('titleInput');
     const titleStyleSelect = document.getElementById('titleStyleSelect');
 
+    const whenInput = document.getElementById('whenInput');
     const whereInput = document.getElementById('whereInput');
+    const descriptionInput = document.getElementById('descriptionInput');
     const useMapsToggle = document.getElementById('useMapsToggle');
 
     const customLinkContainer = document.getElementById('customLinkContainer');
@@ -218,6 +243,8 @@
     titleInput.addEventListener('input', updateOutput);
     titleStyleSelect.addEventListener('change', updateOutput);
     costInput.addEventListener('input', updateOutput);
+    whenInput.addEventListener('input', updateOutput);
+    descriptionInput.addEventListener('input', updateOutput);
 
     lowMoneyToggle.addEventListener('change', updateOutput);
     whereInput.addEventListener('input', updateOutput);
@@ -354,6 +381,8 @@
     function updateOutput() {
 
         const title = titleInput.value.trim();
+        const when = whenInput.value;
+        const description = descriptionInput.value.trim();
         const where = whereInput.value.trim();
 
         let locationLink = '';
@@ -374,8 +403,8 @@
 
         message += `${formattedTitle}\n\n`;
 
-        message += `INSERT_FANZY_DESCRIPTION\n\n`;
-        message += `When: \n`;
+        message += `${description || "[What's happening and why]. [What it'll feel like]."}\n\n`;
+        message += `When: ${when}\n`;
 
         
         if (where) {
