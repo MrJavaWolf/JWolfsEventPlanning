@@ -70,8 +70,12 @@
                     <!-- WHEN -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">When</label>
+                        <div class="form-text text-secondary">
+                            Format: 18:00 friday the 27th of November
+                            <br />Format: [Time] [Day of week] [Day of month] [Month]
+                        </div>
                         <input type="text" class="form-control form-control-lg bg-black text-light border-secondary"
-                               id="whenInput" placeholder="Enter date and time..." />
+                               id="whenInput" placeholder="Enter time and date ..." />
                     </div>
 
                     <!-- WHERE -->
@@ -123,13 +127,14 @@
                     <!-- DESCRIPTION -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Description</label>
-                        <textarea class="form-control bg-black text-light border-secondary" id="descriptionInput"
-                                  rows="4" placeholder="What's happening and why? What will it feel like?"></textarea>
-                        <div class="form-text text-secondary">
+                         <div class="form-text text-secondary">
                             What kind of gathering this is and what type of vibe it will be?
                             <br />Like, is it Cozy/Scary/"Bad movie" movie night? Dance/drink/music party?
                             <br />Add flavor to the description which matches the vibe.
                         </div>
+                        <textarea class="form-control bg-black text-light border-secondary" id="descriptionInput"
+                                  rows="4" placeholder="What's happening and why? What will it feel like?"></textarea>
+                       
                     </div>
 
  
@@ -413,7 +418,7 @@
             .map(option => `• ${option.text}`);
 
         if (enabledOptions.length > 0) {
-            message += "Things to know:\n";
+            message += "Good to know:\n";
             message += enabledOptions.join("\n");
             message += "\n\n";
         }
