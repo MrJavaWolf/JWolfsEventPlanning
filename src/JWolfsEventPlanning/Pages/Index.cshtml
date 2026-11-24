@@ -69,13 +69,14 @@
 
                     <!-- WHEN -->
                     <div class="mb-4">
-                        <label class="form-label fw-semibold">When</label>
+                        <label class="form-label fw-semibold mb-0">When</label>
+                      
+                        <input type="text" class="form-control form-control-lg bg-black text-light border-secondary"
+                               id="whenInput" placeholder="Enter time and date ..." />
                         <div class="form-text text-secondary">
                             Format: 18:00 friday the 27th of November
                             <br />Format: [Time] [Day of week] [Day of month] [Month]
                         </div>
-                        <input type="text" class="form-control form-control-lg bg-black text-light border-secondary"
-                               id="whenInput" placeholder="Enter time and date ..." />
                     </div>
 
                     <!-- WHERE -->
@@ -127,14 +128,14 @@
                     <!-- DESCRIPTION -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">Description</label>
-                         <div class="form-text text-secondary">
+                        <textarea class="form-control bg-black text-light border-secondary" id="descriptionInput"
+                                  rows="4" placeholder="What's happening and why? What will it feel like?"></textarea>
+                       
+                        <div class="form-text text-secondary">
                             What kind of gathering this is and what type of vibe it will be?
                             <br />Like, is it Cozy/Scary/"Bad movie" movie night? Dance/drink/music party?
                             <br />Add flavor to the description which matches the vibe.
                         </div>
-                        <textarea class="form-control bg-black text-light border-secondary" id="descriptionInput"
-                                  rows="4" placeholder="What's happening and why? What will it feel like?"></textarea>
-                       
                     </div>
 
  
