@@ -22,10 +22,9 @@
         outline: none;
     }
 
-        .title-input::placeholder {
-            color: rgba(13, 202, 240, 0.5);
-        }
-
+    .title-input::placeholder {
+        color: rgba(13, 202, 240, 0.5);
+    }
 </style>
 <div class="mb-3"><br /></div>
 <div class="container">
@@ -36,10 +35,7 @@
             <span>
                 Invitation for
             </span>
-            <input type="text"
-                   class="title-input"
-                   id="titleInput"
-                   placeholder="Furry Movie Night..." />
+            <input type="text" class="title-input" id="titleInput" placeholder="Furry Movie Night..." />
         </h1>
 
     </div>
@@ -59,8 +55,7 @@
                             Title Style
                         </label>
 
-                        <select class="form-select bg-black text-light border-secondary"
-                                id="titleStyleSelect">
+                        <select class="form-select bg-black text-light border-secondary" id="titleStyleSelect">
 
                             <option value="simple">Simple</option>
                             <option value="ascii">ASCII</option>
@@ -75,10 +70,8 @@
                     <!-- WHEN -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">When</label>
-                        <input type="text"
-                               class="form-control form-control-lg bg-black text-light border-secondary"
-                               id="whenInput"
-                               placeholder="Enter date and time..." />
+                        <input type="text" class="form-control form-control-lg bg-black text-light border-secondary"
+                               id="whenInput" placeholder="Enter date and time..." />
                     </div>
 
                     <!-- WHERE -->
@@ -87,33 +80,25 @@
 
                         <input type="text"
                                class="form-control form-control-lg bg-black text-light border-secondary mb-3"
-                               id="whereInput"
-                               placeholder="Enter address or venue name..." />
+                               id="whereInput" placeholder="Enter address or venue name..." />
 
                         <div class="form-check form-switch mb-3">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="useMapsToggle"
-                                   checked />
+                            <input class="form-check-input" type="checkbox" id="useMapsToggle" checked />
 
-                            <label class="form-check-label"
-                                   for="useMapsToggle">
+                            <label class="form-check-label" for="useMapsToggle">
                                 Automatically generate Google Maps link
                             </label>
                         </div>
 
                         <!-- CUSTOM LINK -->
-                        <div id="customLinkContainer"
-                             style="display:none;">
+                        <div id="customLinkContainer" style="display:none;">
 
                             <label class="form-label fw-semibold">
                                 Custom Link
                             </label>
 
-                            <input type="text"
-                                   class="form-control bg-black text-light border-secondary"
-                                   id="customLinkInput"
-                                   placeholder="https://example.com" />
+                            <input type="text" class="form-control bg-black text-light border-secondary"
+                                   id="customLinkInput" placeholder="https://example.com" />
                         </div>
                     </div>
 
@@ -123,36 +108,31 @@
                             Cost per person
                         </label>
 
-                        <input type="text"
-                               class="form-control bg-black text-light border-secondary"
-                               id="costInput"
+                        <input type="text" class="form-control bg-black text-light border-secondary" id="costInput"
                                placeholder="Example: 50 DKK" />
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="lowMoneyToggle">
+
+                        <label class="form-check-label" for="lowMoneyToggle">
+                            Write to me if you are low on money
+                        </label>
                     </div>
 
                     <!-- DESCRIPTION -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Description</label>
-                        <textarea
-                            class="form-control bg-black text-light border-secondary"
-                            id="descriptionInput"
-                            rows="4"
-                            placeholder="What's happening and why? What will it feel like?"></textarea>
+                        <textarea class="form-control bg-black text-light border-secondary" id="descriptionInput"
+                                  rows="4" placeholder="What's happening and why? What will it feel like?"></textarea>
                         <div class="form-text text-secondary">
-                            Say what kind of gathering this is and tell the creatures what type of vibe it will be.
-                            Like, is it Cozy/Scary/"Bad movie" movie night? Dance/drink/kinky party?
+                            What kind of gathering this is and what type of vibe it will be?
+                            <br />Like, is it Cozy/Scary/"Bad movie" movie night? Dance/drink/music party?
+                            <br />Add flavor to the description which matches the vibe.
                         </div>
                     </div>
 
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               id="lowMoneyToggle">
-
-                        <label class="form-check-label"
-                               for="lowMoneyToggle">
-                            Write to me if you are low on money
-                        </label>
-                    </div>
+ 
 
                     <!-- OPTIONS -->
                     <div class="mb-4">
@@ -172,17 +152,14 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2 class="mb-0 text-info">Invitation Message</h2>
 
-                        <button class="btn btn-info text-dark fw-bold"
-                                type="button"
-                                onclick="copyOutput(event)">
+                        <button class="btn btn-info text-dark fw-bold" type="button" onclick="copyOutput(event)">
                             Copy
                         </button>
                     </div>
 
                     <textarea id="outputText"
                               class="form-control flex-grow-1 font-monospace bg-black text-success border-secondary"
-                              style="min-height:500px;"
-                              spellcheck="false"></textarea>
+                              style="min-height:500px;" spellcheck="false"></textarea>
 
                 </div>
             </div>
@@ -192,7 +169,6 @@
 </div>
 
 <style>
-
     body {
         background-color: #0f1115;
         color: #f8f9fa;
@@ -217,7 +193,6 @@
     .card {
         backdrop-filter: blur(6px);
     }
-
 </style>
 
 <script>
@@ -313,8 +288,7 @@
     // TITLE BUILDER
     function buildTitle(title) {
 
-        if (!title)
-        {
+        if (!title) {
             title = 'INSERT_TITLE';
         }
 
@@ -403,7 +377,7 @@
 
         message += `${formattedTitle}\n\n`;
 
-        message += `${description || "[What's happening and why]. [What it'll feel like]."}\n\n`;
+        message += `${description || "What's happening and why. What it'll feel like. What type of vibe."}\n\n`;
         message += `When: ${when}\n`;
 
         
