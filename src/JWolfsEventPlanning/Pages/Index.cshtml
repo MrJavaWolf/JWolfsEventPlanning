@@ -6,19 +6,16 @@
 
 <style>
     .title-input {
-        flex: 1 1 auto;
+        width: 100%;
         min-width: 0;
         background: transparent;
         border: none;
         border-bottom: 2px solid #0dcaf0;
         color: #0dcaf0;
-        font-size: inherit;
-        font-weight: inherit;
+        font-size: 1.1rem;
+        font-weight: 600;
         font-family: inherit;
-        line-height: inherit;
-        padding: 0 0.25rem;
-        margin: 0;
-        height: 1em;
+        padding: 0.375rem 0.25rem;
         outline: none;
     }
 
@@ -29,17 +26,6 @@
 <div class="mb-3"><br /></div>
 <div class="container">
 
-    <!-- HEADER -->
-    <div class="mb-4">
-        <h1 class="text-info mb-0 d-flex align-items-center gap-3 text-nowrap">
-            <span>
-                Invitation for
-            </span>
-            <input type="text" class="title-input" id="titleInput" placeholder="Furry Movie Night..." />
-        </h1>
-
-    </div>
-
     <div class="row g-4">
 
         <!-- INPUTS -->
@@ -47,23 +33,41 @@
             <div class="card bg-dark text-light shadow-lg border-secondary rounded-4">
                 <div class="card-body p-4">
 
-                    <h2 class="mb-4 text-info">Invitation details</h2>
+                    <h2 class="mb-4 text-info">Invitation</h2>
 
-                    <!-- TITLE STYLE -->
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">
-                            Title Style
-                        </label>
+                    <!-- INVITATION TITLE + TITLE STYLE -->
+                    <div class="row g-3 mb-4 align-items-end">
 
-                        <select class="form-select bg-black text-light border-secondary" id="titleStyleSelect">
+                        <!-- INVITATION TITLE -->
+                        <div class="col">
+                            <label class="form-label fw-semibold">
+                                Title
+                            </label>
 
-                            <option value="simple">Simple</option>
-                            <option value="ascii">ASCII</option>
-                            <option value="box">Box</option>
-                            <option value="double">Double Line</option>
-                            <option value="star">Stars</option>
+                            <input type="text"
+                                   class="title-input"
+                                   id="titleInput"
+                                   placeholder="Furry Movie Night..." />
+                        </div>
 
-                        </select>
+                        <!-- TITLE STYLE -->
+                        <div class="col-md-4 col-5">
+                            <label class="form-label fw-semibold small">
+                                Style
+                            </label>
+
+                            <select class="form-select form-select-sm bg-black text-light border-secondary"
+                                    id="titleStyleSelect">
+
+                                <option value="simple">Simple</option>
+                                <option value="ascii">ASCII</option>
+                                <option value="box">Box</option>
+                                <option value="double">Double Line</option>
+                                <option value="star">Stars</option>
+
+                            </select>
+                        </div>
+
                     </div>
 
 
